@@ -1,26 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@layer base {
+    body {
+        font-family: 'JetBrains Mono', monospace;
+        background: #0a0a0a;
+        color: #00ff00;
+    }
+
+    ::selection {
+        background: #00ff00;
+        color: #000;
+    }
+
+    ::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #0a0a0a;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #00ff00;
+    }
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+@layer utilities {
+    .terminal-window {
+        background: #1a1a1a;
+        border: 1px solid #333;
+        border-radius: 8px;
+        box-shadow: 0 20px 60px rgba(0, 255, 0, 0.1);
+    }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+    .terminal-text {
+        color: #00ff00;
+    }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+    .terminal-prompt {
+        color: #00ff00;
+    }
+
+    .terminal-path {
+        color: #0099ff;
+    }
+
+    .terminal-command {
+        color: #ffaa00;
+    }
 }
