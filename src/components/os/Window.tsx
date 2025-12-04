@@ -49,8 +49,8 @@ export function Window({
                     className={`
                         absolute bg-[#0a0a0a]/95 backdrop-blur-xl border border-[#333] shadow-2xl overflow-hidden flex flex-col
                         ${isMobile
-                            ? "inset-0 w-full h-[calc(100vh-48px)] rounded-none top-0 left-0"
-                            : "top-20 left-1/4 w-[800px] h-[70vh] rounded-lg"
+                            ? "fixed inset-0 w-full h-[calc(100dvh-48px)] rounded-none top-0 left-0"
+                            : "absolute top-20 left-1/4 w-[800px] h-[70vh] rounded-lg"
                         }
                     `}
                     style={{ zIndex }}

@@ -132,7 +132,7 @@ export function Desktop({ onExit }: DesktopProps) {
             <div className="absolute inset-0 bg-black/10 backdrop-blur-[1px]" />
 
             {/* Desktop Icons Grid */}
-            <div className="relative z-10 p-4 md:p-8 flex flex-wrap content-start gap-4 md:gap-6 h-[calc(100dvh-48px)] overflow-y-auto md:overflow-visible md:flex-col md:h-[calc(100dvh-48px)]">
+            <div className="relative z-10 p-4 md:p-8 grid grid-cols-3 sm:grid-cols-4 md:flex md:flex-col md:flex-wrap content-start gap-4 md:gap-6 h-[calc(100dvh-48px)] overflow-y-auto md:overflow-visible">
                 {/* Main Apps */}
                 <DesktopIcon label="About Me" icon={User} onClick={() => openWindow("about")} />
                 <DesktopIcon label="Skills" icon={Cpu} onClick={() => openWindow("skills")} />
@@ -141,12 +141,12 @@ export function Desktop({ onExit }: DesktopProps) {
                 <DesktopIcon label="Terminal" icon={Terminal} onClick={() => openWindow("terminal")} />
 
                 {/* Folders */}
-                <div className="w-full md:w-auto md:h-8" /> {/* Spacer */}
+                <div className="hidden md:block w-full md:w-auto md:h-8" /> {/* Spacer */}
                 <DesktopIcon label="Certificates" icon={Folder} onClick={() => openWindow("certificates")} />
                 <DesktopIcon label="Certifications" icon={Folder} onClick={() => openWindow("certifications")} />
 
                 {/* Social Links */}
-                <div className="w-full md:w-auto md:h-8" /> {/* Spacer */}
+                <div className="hidden md:block w-full md:w-auto md:h-8" /> {/* Spacer */}
                 <DesktopIcon label="GitHub" icon={Github} onClick={() => openLink("https://github.com/yourusername")} />
                 <DesktopIcon label="LinkedIn" icon={Linkedin} onClick={() => openLink("https://linkedin.com/in/yourname")} />
                 <DesktopIcon label="Instagram" icon={Instagram} onClick={() => openLink("https://instagram.com/yourusername")} />
@@ -154,7 +154,7 @@ export function Desktop({ onExit }: DesktopProps) {
                 <DesktopIcon label="Email" icon={Mail} onClick={() => openLink("mailto:your.email@example.com")} />
 
                 {/* Project Shortcuts */}
-                <div className="w-full md:w-auto md:h-8" /> {/* Spacer */}
+                <div className="hidden md:block w-full md:w-auto md:h-8" /> {/* Spacer */}
                 <DesktopIcon label="AI Assistant" icon={FileText} onClick={() => openWindow("projects")} />
                 <DesktopIcon label="3D Portfolio" icon={FileText} onClick={() => openWindow("projects")} />
                 <DesktopIcon label="Task Master" icon={FileText} onClick={() => openWindow("projects")} />
