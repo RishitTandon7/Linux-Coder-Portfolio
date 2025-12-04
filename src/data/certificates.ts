@@ -12,69 +12,162 @@ export interface Certificate {
 
 export const certificatesData: Certificate[] = [
     {
-        id: "js-algo",
-        title: "JavaScript Algorithms and Data Structures",
-        issuer: "freeCodeCamp",
+        id: "Best Student",
+        title: "Outstanding Student of 1st year",
+        issuer: "C.Tech Department",
         date: "2024",
-        link: "#",
-        image: "/certificates/js-algo.png",
-        description: "Completed comprehensive course on JavaScript algorithms, data structures, and problem-solving techniques.",
+        link: "/certificates/IMG-20250502-WA0090.jpg",
+        image: "/certificates/IMG-20250502-WA0090.jpg",
+        description: "Outstanding Student of 1st year, for winning multiple hackathons and making projects.",
         type: "certificate",
-        fileName: "JS_Algo.pdf"
+        fileName: "IMG-20250502-WA0090.jpg"
     },
     {
-        id: "responsive-web",
-        title: "Responsive Web Design",
-        issuer: "freeCodeCamp",
-        date: "2023",
-        link: "#",
-        image: "/certificates/responsive.png",
-        description: "Mastered responsive web design principles, CSS flexbox, grid, and mobile-first development.",
-        type: "certificate",
-        fileName: "Responsive_Web.pdf"
-    },
-    {
-        id: "frontend-libs",
-        title: "Front End Development Libraries",
-        issuer: "freeCodeCamp",
-        date: "2023",
-        link: "#",
-        image: "/certificates/frontend.png",
-        description: "Expertise in React, Redux, SASS, and modern front-end development frameworks and tools.",
-        type: "certificate",
-        fileName: "Frontend_Libs.pdf"
-    },
-    {
-        id: "aws-arch",
-        title: "AWS Certified Solutions Architect",
-        issuer: "Amazon Web Services",
+        id: "cert-91",
+        title: "Certificate 91",
+        issuer: "Issuer Name",
         date: "2024",
-        link: "#",
-        image: "/certifications/aws.png",
-        description: "Professional certification in designing and deploying scalable, highly available systems on AWS.",
-        type: "certification",
-        fileName: "AWS_Architect.png"
+        link: "/certificates/IMG-20250502-WA0091.jpg",
+        image: "/certificates/IMG-20250502-WA0091.jpg",
+        description: "Certificate description goes here.",
+        type: "certificate",
+        fileName: "IMG-20250502-WA0091.jpg"
     },
     {
-        id: "fullstack",
-        title: "Full Stack Web Development",
-        issuer: "Coursera",
-        date: "2023",
-        link: "#",
-        image: "/certifications/fullstack.png",
-        description: "Complete full-stack development specialization covering front-end, back-end, and databases.",
-        type: "certification",
-        fileName: "Full_Stack.png"
+        id: "cert-92",
+        title: "Certificate 92",
+        issuer: "Issuer Name",
+        date: "2024",
+        link: "/certificates/IMG-20250502-WA0092.jpg",
+        image: "/certificates/IMG-20250502-WA0092.jpg",
+        description: "Certificate description goes here.",
+        type: "certificate",
+        fileName: "IMG-20250502-WA0092.jpg"
     },
     {
-        id: "react-dev",
-        title: "React Developer Certification",
-        issuer: "Meta",
-        date: "2023",
-        link: "#",
-        image: "/certifications/react.png",
-        description: "Advanced React certification covering hooks, state management, and modern React patterns.",
-        type: "certification",
-        fileName: "React_Dev.png"
-    }
+        id: "cert-93",
+        title: "Certificate 93",
+        issuer: "Issuer Name",
+        date: "2024",
+        link: "/certificates/IMG-20250502-WA0093.jpg",
+        image: "/certificates/IMG-20250502-WA0093.jpg",
+        description: "Certificate description goes here.",
+        type: "certificate",
+        fileName: "IMG-20250502-WA0093.jpg"
+    },
+    {
+        id: "cert-94",
+        title: "Certificate 94",
+        issuer: "Issuer Name",
+        date: "2024",
+        link: "/certificates/IMG-20250502-WA0094.jpg",
+        image: "/certificates/IMG-20250502-WA0094.jpg",
+        description: "Certificate description goes here.",
+        type: "certificate",
+        fileName: "IMG-20250502-WA0094.jpg"
+    },
+    {
+        id: "cert-95",
+        title: "Certificate 95",
+        issuer: "Issuer Name",
+        date: "2024",
+        link: "/certificates/IMG-20250502-WA0095.jpg",
+        image: "/certificates/IMG-20250502-WA0095.jpg",
+        description: "Certificate description goes here.",
+        type: "certificate",
+        fileName: "IMG-20250502-WA0095.jpg"
+    },
+    {
+        id: "cert-96",
+        title: "Certificate 96",
+        issuer: "Issuer Name",
+        date: "2024",
+        link: "/certificates/IMG-20250502-WA0096.jpg",
+        image: "/certificates/IMG-20250502-WA0096.jpg",
+        description: "Certificate description goes here.",
+        type: "certificate",
+        fileName: "IMG-20250502-WA0096.jpg"
+    },
+    {
+        id: "cert-97",
+        title: "Certificate 97",
+        issuer: "Issuer Name",
+        date: "2024",
+        link: "/certificates/IMG-20250502-WA0097.jpg",
+        image: "/certificates/IMG-20250502-WA0097.jpg",
+        description: "Certificate description goes here.",
+        type: "certificate",
+        fileName: "IMG-20250502-WA0097.jpg"
+    },
+    {
+        id: "cert-98",
+        title: "Certificate 98",
+        issuer: "Issuer Name",
+        date: "2024",
+        link: "/certificates/IMG-20250502-WA0098.jpg",
+        image: "/certificates/IMG-20250502-WA0098.jpg",
+        description: "Certificate description goes here.",
+        type: "certificate",
+        fileName: "IMG-20250502-WA0098.jpg"
+    },
+    {
+        id: "cert-99",
+        title: "Certificate 99",
+        issuer: "Issuer Name",
+        date: "2024",
+        link: "/certificates/IMG-20250502-WA0099.jpg",
+        image: "/certificates/IMG-20250502-WA0099.jpg",
+        description: "Certificate description goes here.",
+        type: "certificate",
+        fileName: "IMG-20250502-WA0099.jpg"
+    },
+    {
+        id: "cert-100",
+        title: "Certificate 100",
+        issuer: "Issuer Name",
+        date: "2024",
+        link: "/certificates/IMG-20250502-WA0100.jpg",
+        image: "/certificates/IMG-20250502-WA0100.jpg",
+        description: "Certificate description goes here.",
+        type: "certificate",
+        fileName: "IMG-20250502-WA0100.jpg"
+    },
+    {
+        id: "cert-101",
+        title: "Certificate 101",
+        issuer: "Issuer Name",
+        date: "2024",
+        link: "/certificates/IMG-20250502-WA0101.jpg",
+        image: "/certificates/IMG-20250502-WA0101.jpg",
+        description: "Certificate description goes here.",
+        type: "certificate",
+        fileName: "IMG-20250502-WA0101.jpg"
+    },
+    {
+        id: "cert-102",
+        title: "Certificate 102",
+        issuer: "Issuer Name",
+        date: "2024",
+        link: "/certificates/IMG-20250502-WA0102.jpg",
+        image: "/certificates/IMG-20250502-WA0102.jpg",
+        description: "Certificate description goes here.",
+        type: "certificate",
+        fileName: "IMG-20250502-WA0102.jpg"
+    },
+    // Certifications
+    ...Array.from({ length: 12 }, (_, i) => {
+        const num = 103 + i;
+        const fileName = `IMG-20250502-WA0${num}.jpg`; // WA0103 to WA0114
+        return {
+            id: `certification-${num}`,
+            title: `Certification ${num}`,
+            issuer: "Issuer Name",
+            date: "2024",
+            link: `/certifications/${fileName}`,
+            image: `/certifications/${fileName}`,
+            description: "Certification description goes here.",
+            type: "certification" as const,
+            fileName: fileName
+        };
+    })
 ];

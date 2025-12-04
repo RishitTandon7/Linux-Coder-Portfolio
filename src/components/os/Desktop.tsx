@@ -1,12 +1,15 @@
 "use client";
 
+"use client";
+
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { User, Code, Cpu, Mail, Award, Terminal, Folder, FileText, Github, Linkedin, Instagram, MessageCircle } from "lucide-react";
+import { User, Code, Cpu, Mail, Award, Terminal, Folder, FileText, Github, Linkedin, Instagram, MessageCircle, Briefcase } from "lucide-react";
 import dynamic from "next/dynamic";
 import { DesktopIcon } from "./DesktopIcon";
 import { Window } from "./Window";
-import { Taskbar } from "./Taskbar";
+import { TopBar } from "./TopBar";
+import { Dock } from "./Dock";
 import { TerminalApp } from "./apps/TerminalApp";
 import { FileExplorer } from "./apps/FileExplorer";
 import { SystemBackground } from "./SystemBackground";
@@ -21,6 +24,9 @@ const Projects = dynamic(() => import("../sections/Projects").then(mod => mod.Pr
 const Education = dynamic(() => import("../sections/Education").then(mod => mod.Education), {
     loading: () => <div className="text-white p-4">Loading Education...</div>
 });
+const Experience = dynamic(() => import("../sections/Experience").then(mod => mod.Experience), {
+    loading: () => <div className="text-white p-4">Loading Experience...</div>
+});
 const Contact = dynamic(() => import("../sections/Contact").then(mod => mod.Contact), {
     loading: () => <div className="text-white p-4">Loading Contact...</div>
 });
@@ -33,14 +39,50 @@ interface DesktopProps {
 }
 
 export function Desktop({ onExit }: DesktopProps) {
+    const handleOpenFile = (file: { name: string; type: string; content: string }) => {
+        if (file.type === "image") {
+            const previewId = `preview-${file.name}`;
+
+            setWindows(prev => {
+                // Check if window already exists
+                if (prev.find(w => w.id === previewId)) {
+                    return prev.map(w => w.id === previewId ? { ...w, isOpen: true, isMinimized: false, zIndex: 999 } : w); // Simple zIndex bump, ideal would be maxZIndex + 1 but accessing that state inside functional update is hard without ref. 
+                    // We will fix zIndex in a separate effect or just use a high number.
+                }
+
+                const newWindow = {
+                    id: previewId,
+                    title: file.name,
+                    isOpen: true,
+                    isMinimized: false,
+                    zIndex: 100, // Start high
+                    content: (
+                        <div className="flex items-center justify-center h-full bg-black p-4">
+                            <img
+                                src={file.content}
+                                alt={file.name}
+                                className="max-w-full max-h-full object-contain"
+                            />
+                        </div>
+                    )
+                };
+                return [...prev, newWindow];
+            });
+            setActiveWindowId(previewId);
+        } else {
+            alert(`Cannot open ${file.type} files yet.`);
+        }
+    };
+
     const [windows, setWindows] = useState<Array<{ id: string; title: string; isOpen: boolean; isMinimized: boolean; zIndex: number; content: React.ReactNode }>>([
         { id: "about", title: "About Me", isOpen: false, isMinimized: false, zIndex: 1, content: <div className="text-white p-4">About Me Content Placeholder</div> },
         { id: "skills", title: "Skills", isOpen: false, isMinimized: false, zIndex: 1, content: <div className="pt-10 h-full overflow-y-auto custom-scrollbar"><GravitySkills /></div> },
-        { id: "projects", title: "Projects", isOpen: false, isMinimized: false, zIndex: 1, content: <div className="pt-10 h-full overflow-y-auto custom-scrollbar"><Projects /></div> },
+        { id: "projects", title: "Projects", isOpen: false, isMinimized: false, zIndex: 1, content: <div className="pt-10 h-full overflow-y-auto custom-scrollbar"><Projects isWindow /></div> },
         { id: "education", title: "Education", isOpen: false, isMinimized: false, zIndex: 1, content: <div className="pt-10 h-full overflow-y-auto custom-scrollbar"><Education /></div> },
+        { id: "experience", title: "Experience", isOpen: false, isMinimized: false, zIndex: 1, content: <div className="pt-10 h-full overflow-y-auto custom-scrollbar"><Experience /></div> },
         { id: "terminal", title: "Terminal", isOpen: false, isMinimized: false, zIndex: 1, content: <TerminalApp onExit={onExit} /> },
-        { id: "certificates", title: "Certificates", isOpen: false, isMinimized: false, zIndex: 1, content: <FileExplorer folderId="certificates" /> },
-        { id: "certifications", title: "Certifications", isOpen: false, isMinimized: false, zIndex: 1, content: <FileExplorer folderId="certifications" /> },
+        { id: "certificates", title: "Certificates", isOpen: false, isMinimized: false, zIndex: 1, content: <FileExplorer folderId="certificates" onOpenFile={handleOpenFile} /> },
+        { id: "certifications", title: "Certifications", isOpen: false, isMinimized: false, zIndex: 1, content: <FileExplorer folderId="certifications" onOpenFile={handleOpenFile} /> },
     ]);
 
     const [activeWindowId, setActiveWindowId] = useState<string | null>(null);
@@ -131,27 +173,27 @@ export function Desktop({ onExit }: DesktopProps) {
             <SystemBackground />
             <div className="absolute inset-0 bg-black/10 backdrop-blur-[1px]" />
 
-            {/* Desktop Icons Grid */}
-            <div className="relative z-10 p-4 md:p-8 grid grid-cols-3 sm:grid-cols-4 md:flex md:flex-col md:flex-wrap content-start gap-4 md:gap-6 h-[calc(100dvh-48px)] overflow-y-auto md:overflow-visible">
+            <TopBar />
+
+            {/* Desktop Icons Grid - Adjusted for TopBar */}
+            <div className="relative z-10 p-4 md:p-8 pt-16 grid grid-cols-3 sm:grid-cols-4 md:flex md:flex-col md:flex-wrap content-start gap-4 md:gap-6 h-[calc(100dvh-80px)] overflow-y-auto md:overflow-visible">
                 {/* Main Apps */}
                 <DesktopIcon label="About Me" icon={User} onClick={() => openWindow("about")} />
                 <DesktopIcon label="Skills" icon={Cpu} onClick={() => openWindow("skills")} />
                 <DesktopIcon label="Projects" icon={Code} onClick={() => openWindow("projects")} />
                 <DesktopIcon label="Education" icon={Mail} onClick={() => openWindow("education")} />
+                <DesktopIcon label="Experience" icon={Briefcase} onClick={() => openWindow("experience")} />
                 <DesktopIcon label="Terminal" icon={Terminal} onClick={() => openWindow("terminal")} />
-
-                {/* Folders */}
-                <div className="hidden md:block w-full md:w-auto md:h-8" /> {/* Spacer */}
                 <DesktopIcon label="Certificates" icon={Folder} onClick={() => openWindow("certificates")} />
                 <DesktopIcon label="Certifications" icon={Folder} onClick={() => openWindow("certifications")} />
 
                 {/* Social Links */}
                 <div className="hidden md:block w-full md:w-auto md:h-8" /> {/* Spacer */}
-                <DesktopIcon label="GitHub" icon={Github} onClick={() => openLink("https://github.com/yourusername")} />
-                <DesktopIcon label="LinkedIn" icon={Linkedin} onClick={() => openLink("https://linkedin.com/in/yourname")} />
-                <DesktopIcon label="Instagram" icon={Instagram} onClick={() => openLink("https://instagram.com/yourusername")} />
-                <DesktopIcon label="WhatsApp" icon={MessageCircle} onClick={() => openLink("https://wa.me/your-number")} />
-                <DesktopIcon label="Email" icon={Mail} onClick={() => openLink("mailto:your.email@example.com")} />
+                <DesktopIcon label="GitHub" icon={Github} onClick={() => openLink("https://github.com/rishittandon7")} />
+                <DesktopIcon label="LinkedIn" icon={Linkedin} onClick={() => openLink("https://www.linkedin.com/in/rishit-tandon-928661287/")} />
+                <DesktopIcon label="Instagram" icon={Instagram} onClick={() => openLink("https://instagram.com/kingrishit2.0")} />
+                <DesktopIcon label="WhatsApp" icon={MessageCircle} onClick={() => openLink("https://wa.me/917394865520")} />
+                <DesktopIcon label="Email" icon={Mail} onClick={() => openLink("mailto:rishit.tandon.7@gmail.com")} />
 
                 {/* Project Shortcuts */}
                 <div className="hidden md:block w-full md:w-auto md:h-8" /> {/* Spacer */}
@@ -177,8 +219,8 @@ export function Desktop({ onExit }: DesktopProps) {
                 </Window>
             ))}
 
-            {/* Taskbar */}
-            <Taskbar
+            {/* Dock */}
+            <Dock
                 openWindows={windows.filter((w) => w.isOpen)}
                 activeWindowId={activeWindowId}
                 onWindowClick={(id) => {
@@ -189,7 +231,7 @@ export function Desktop({ onExit }: DesktopProps) {
                         minimizeWindow(id);
                     }
                 }}
-                onStartClick={() => openWindow("terminal")}
+                onAppClick={(id) => openWindow(id)}
             />
         </motion.div>
     );

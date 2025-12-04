@@ -5,9 +5,10 @@ import { useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import { BootSequence } from "@/components/BootSequence";
 import { Dock } from "@/components/ui/Dock";
-import { User, Code, Cpu, Mail, Award } from "lucide-react";
+import { User, Code, Cpu, Mail, Award, Briefcase } from "lucide-react";
 import { Hero } from "@/components/sections/Hero";
 import { Education } from "@/components/sections/Education";
+import { Experience } from "@/components/sections/Experience";
 import { Projects } from "@/components/sections/Projects";
 import { Contact } from "@/components/sections/Contact";
 import { Certifications } from "@/components/sections/Certifications";
@@ -30,6 +31,7 @@ export function Layout() {
     const dockItems = [
         { id: "hero", label: "Home", icon: <User className="w-6 h-6 text-green-400" />, onClick: () => scrollToSection("hero") },
         { id: "education", label: "Education", icon: <Mail className="w-6 h-6 text-green-400" />, onClick: () => scrollToSection("education") },
+        { id: "experience", label: "Experience", icon: <Briefcase className="w-6 h-6 text-green-400" />, onClick: () => scrollToSection("experience") },
         { id: "skills", label: "Skills", icon: <Cpu className="w-6 h-6 text-green-400" />, onClick: () => scrollToSection("skills") },
         { id: "certifications", label: "Certificates", icon: <Award className="w-6 h-6 text-green-400" />, onClick: () => scrollToSection("certifications") },
         { id: "projects", label: "Projects", icon: <Code className="w-6 h-6 text-green-400" />, onClick: () => scrollToSection("projects") },
@@ -46,6 +48,8 @@ export function Layout() {
                 <Hero onToggleGui={setHideDock} isDockHidden={hideDock} />
 
                 <Education />
+
+                <Experience />
 
                 <section id="skills" className="min-h-screen w-full py-20">
                     <GravitySkills />

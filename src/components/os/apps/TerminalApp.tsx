@@ -167,7 +167,7 @@ export function TerminalApp({ onExit }: TerminalAppProps) {
 
     return (
         <div
-            className="h-full bg-black/90 font-mono text-sm p-4 overflow-y-auto custom-scrollbar"
+            className="h-full bg-[#282a36]/95 font-mono text-sm p-4 overflow-y-auto custom-scrollbar selection:bg-[#44475a]"
             ref={terminalRef}
             onClick={() => inputRef.current?.focus()}
         >
@@ -175,8 +175,14 @@ export function TerminalApp({ onExit }: TerminalAppProps) {
                 <div key={i} className="mb-2">
                     {item.command && (
                         <div className="flex items-center gap-2">
-                            <span className="text-[#00ff00]">guest@rishit-os:{currentDir}$</span>
-                            <span className="text-gray-300">{item.command}</span>
+                            <span className="text-[#bd93f9] font-bold">➜</span>
+                            <span className="text-[#50fa7b]">guest</span>
+                            <span className="text-[#f8f8f2]">@</span>
+                            <span className="text-[#ff79c6]">rishit-os</span>
+                            <span className="text-[#f8f8f2]">:</span>
+                            <span className="text-[#8be9fd]">{currentDir}</span>
+                            <span className="text-[#f8f8f2]">$</span>
+                            <span className="text-[#f8f8f2] ml-1">{item.command}</span>
                         </div>
                     )}
                     {item.output}
@@ -184,13 +190,19 @@ export function TerminalApp({ onExit }: TerminalAppProps) {
             ))}
 
             <form onSubmit={handleSubmit} className="flex items-center gap-2">
-                <span className="text-[#00ff00]">guest@rishit-os:{currentDir}$</span>
+                <span className="text-[#bd93f9] font-bold">➜</span>
+                <span className="text-[#50fa7b]">guest</span>
+                <span className="text-[#f8f8f2]">@</span>
+                <span className="text-[#ff79c6]">rishit-os</span>
+                <span className="text-[#f8f8f2]">:</span>
+                <span className="text-[#8be9fd]">{currentDir}</span>
+                <span className="text-[#f8f8f2]">$</span>
                 <input
                     ref={inputRef}
                     type="text"
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
-                    className="flex-1 bg-transparent text-gray-300 outline-none caret-[#00ff00]"
+                    className="flex-1 bg-transparent text-[#f8f8f2] outline-none caret-[#bd93f9] ml-1"
                     autoFocus
                     spellCheck={false}
                 />

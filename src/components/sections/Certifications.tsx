@@ -76,12 +76,12 @@ export function Certifications() {
                                         <Award className="h-20 w-20 text-[#00ff00] opacity-20" />
                                     </div>
                                     {/* Uncomment when you have images */}
-                                    {/* <Image
-                    src={item.image}
-                    alt={item.title}
-                    fill
-                    className="object-cover"
-                  /> */}
+                                    <Image
+                                        src={item.image}
+                                        alt={item.title}
+                                        fill
+                                        className="object-cover"
+                                    />
 
                                     {/* Link overlay */}
                                     <a

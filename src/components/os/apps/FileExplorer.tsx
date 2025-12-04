@@ -6,9 +6,10 @@ import { certificatesData } from "@/data/certificates";
 
 interface FileExplorerProps {
     folderId: string;
+    onOpenFile?: (file: { name: string; type: string; content: string }) => void;
 }
 
-export function FileExplorer({ folderId }: FileExplorerProps) {
+export function FileExplorer({ folderId, onOpenFile }: FileExplorerProps) {
     const getFiles = () => {
         const type = folderId === "certificates" ? "certificate" : "certification";
         return certificatesData
@@ -16,7 +17,9 @@ export function FileExplorer({ folderId }: FileExplorerProps) {
             .map(item => ({
                 name: item.fileName || `${item.title.replace(/\s+/g, '_')}.pdf`,
                 type: item.image.endsWith(".png") || item.image.endsWith(".jpg") ? "image" : "pdf",
-                icon: item.image.endsWith(".png") || item.image.endsWith(".jpg") ? ImageIcon : FileText
+                icon: item.image.endsWith(".png") || item.image.endsWith(".jpg") ? ImageIcon : FileText,
+                content: item.image, // Using image path as content for now
+                originalItem: item
             }));
     };
 
@@ -31,7 +34,11 @@ export function FileExplorer({ folderId }: FileExplorerProps) {
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {files.map((file, i) => (
-                    <div key={i} className="flex flex-col items-center gap-2 p-4 hover:bg-white/5 rounded-lg cursor-pointer group transition-colors">
+                    <div
+                        key={i}
+                        onClick={() => onOpenFile?.({ name: file.name, type: file.type, content: file.content })}
+                        className="flex flex-col items-center gap-2 p-4 hover:bg-white/5 rounded-lg cursor-pointer group transition-colors"
+                    >
                         <file.icon className="w-12 h-12 text-gray-400 group-hover:text-[#00ff00] transition-colors" />
                         <span className="text-xs text-gray-300 text-center truncate w-full group-hover:text-white">
                             {file.name}

@@ -9,36 +9,36 @@ export function Contact() {
         {
             name: "Email",
             icon: Mail,
-            link: "mailto:your.email@example.com",
-            username: "your.email@example.com",
+            link: "mailto:rishit.tandon.7@gmail.com",
+            username: "rishit.tandon.7@gmail.com",
             color: "from-red-500 to-orange-500"
         },
         {
             name: "WhatsApp",
             icon: MessageCircle,
-            link: "https://wa.me/your-number",
-            username: "+1 234 567 8900",
+            link: "https://wa.me/917394865520",
+            username: "+91 73948 65520",
             color: "from-green-500 to-emerald-500"
         },
         {
             name: "Instagram",
             icon: Instagram,
-            link: "https://instagram.com/yourusername",
-            username: "@yourusername",
+            link: "https://instagram.com/kingrishit2.0",
+            username: "@kingrishit2.0",
             color: "from-pink-500 to-purple-500"
         },
         {
             name: "GitHub",
             icon: Github,
-            link: "https://github.com/yourusername",
-            username: "@yourusername",
+            link: "https://github.com/rishittandon7",
+            username: "@rishittandon7",
             color: "from-gray-400 to-gray-600"
         },
         {
             name: "LinkedIn",
             icon: Linkedin,
-            link: "https://linkedin.com/in/yourname",
-            username: "Your Name",
+            link: "https://www.linkedin.com/in/rishit-tandon-928661287/",
+            username: "Rishit Tandon",
             color: "from-blue-500 to-blue-700"
         },
     ];
@@ -98,14 +98,23 @@ export function Contact() {
                         ))}
                     </div>
 
-                    {/* Additional Info */}
+                    {/* Additional Info & Resume */}
                     <motion.div
                         initial={{ opacity: 0 }}
                         whileInView={{ opacity: 1 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.5 }}
-                        className="mt-12 text-center"
+                        className="mt-12 flex flex-col items-center gap-6"
                     >
+                        <a
+                            href="/Resume.pdf"
+                            download="Rishit_Tandon_Resume.pdf"
+                            className="inline-flex items-center gap-2 px-8 py-4 bg-[#00ff00] text-black rounded-lg font-mono font-bold hover:bg-[#00cc00] transition-all group shadow-[0_0_20px_rgba(0,255,0,0.3)] hover:shadow-[0_0_30px_rgba(0,255,0,0.5)]"
+                        >
+                            <Send className="h-5 w-5 group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform" />
+                            <span>Download Resume</span>
+                        </a>
+
                         <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#1a1a1a] border border-[#333]">
                             <MapPin className="h-4 w-4 text-[#00ff00]" />
                             <span className="text-sm text-gray-400">Based in India</span>

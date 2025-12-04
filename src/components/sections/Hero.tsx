@@ -51,6 +51,7 @@ export function Hero({ onToggleGui, isDockHidden }: HeroProps) {
                     <div><span className="text-[#00ff00]">contact</span> - Get in touch</div>
                     <div><span className="text-[#00ff00]">socials</span> - View social links</div>
                     <div><span className="text-[#00ff00]">gui</span> - Launch Desktop Mode 🚀</div>
+                    <div><span className="text-[#00ff00]">resume</span> - Download Resume 📄</div>
                     <div><span className="text-[#00ff00]">taskbar</span> - Toggle navigation dock</div>
                     <div><span className="text-[#00ff00]">whoami</span> - Current user</div>
                     <div><span className="text-[#00ff00]">ls</span> - List directories</div>
@@ -66,6 +67,19 @@ export function Hero({ onToggleGui, isDockHidden }: HeroProps) {
             return (
                 <div className="text-[#00ff00]">
                     Launching Desktop Environment...
+                </div>
+            );
+        },
+        resume: () => {
+            const link = document.createElement('a');
+            link.href = '/Resume.pdf';
+            link.download = 'Rishit_Tandon_Resume.pdf';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            return (
+                <div className="text-[#00ff00]">
+                    Downloading resume...
                 </div>
             );
         },

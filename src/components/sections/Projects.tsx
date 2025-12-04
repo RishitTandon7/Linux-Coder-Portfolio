@@ -4,61 +4,116 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Github, ExternalLink } from "lucide-react";
 import { useState } from "react";
 
-export function Projects() {
+interface ProjectsProps {
+    isWindow?: boolean;
+}
+
+export function Projects({ isWindow = false }: ProjectsProps) {
     const [loadingGithub, setLoadingGithub] = useState<number | null>(null);
 
-    const handleGithubClick = (e: React.MouseEvent, url: string, id: number) => {
+    const handleGithubClick = async (e: React.MouseEvent, url: string, id: number) => {
         e.preventDefault();
         setLoadingGithub(id);
-        setTimeout(() => {
-            window.open(url, "_blank");
-            setLoadingGithub(null);
-        }, 2000);
+
+        // Simulate terminal cloning effect
+        await new Promise(resolve => setTimeout(resolve, 2000));
+
+        setLoadingGithub(null);
+        if (url) window.open(url, '_blank');
     };
 
     const projects = [
         {
             id: 1,
-            title: "AI Code Assistant",
-            description: "Revolutionary AI platform with natural language processing and intelligent code generation.",
-            tags: ["Next.js", "OpenAI", "TypeScript"],
-            github: "https://github.com",
-            demo: "https://demo.com",
+            title: "Agentic-AI",
+            description: "Advanced AI agents framework for autonomous task execution and problem-solving.",
+            tags: ["Python", "LangChain", "OpenAI"],
+            github: "https://github.com/RishitTandon7/Agentic-AI",
+            demo: "",
         },
         {
             id: 2,
-            title: "3D Portfolio",
-            description: "Immersive portfolio with stunning 3D product previews and physics-based animations.",
-            tags: ["React", "Three.js", "Framer"],
-            github: "https://github.com",
-            demo: "https://demo.com",
+            title: "LinkedIn-Uploader",
+            description: "Automated tool for scheduling and uploading content to LinkedIn to streamline social media management.",
+            tags: ["Python", "Selenium", "Automation"],
+            github: "https://github.com/RishitTandon7/LinkedIn-Uploader",
+            demo: "",
         },
         {
             id: 3,
-            title: "Task Master Pro",
-            description: "Gamified productivity app with real-time collaboration and beautiful interactions.",
-            tags: ["TypeScript", "Firebase"],
-            github: "https://github.com",
-            demo: "https://demo.com",
+            title: "VaxTrack",
+            description: "Comprehensive vaccination tracking system for managing immunization records and schedules.",
+            tags: ["React", "Node.js", "MongoDB"],
+            github: "https://github.com/RishitTandon7/VaxTrack",
+            demo: "",
+        },
+        {
+            id: 4,
+            title: "Prasad",
+            description: "Community-driven food distribution platform connecting donors with those in need.",
+            tags: ["Next.js", "Firebase", "Tailwind"],
+            github: "https://github.com/RishitTandon7/Prasad",
+            demo: "",
+        },
+        {
+            id: 5,
+            title: "EduStream",
+            description: "Interactive educational streaming platform enabling real-time remote learning experiences.",
+            tags: ["React", "WebRTC", "Socket.io"],
+            github: "https://github.com/RishitTandon7/EduStream",
+            demo: "",
+        },
+        {
+            id: 6,
+            title: "ULTRON",
+            description: "Advanced AI system designed for automation and intelligent task management.",
+            tags: ["Python", "AI", "Automation"],
+            github: "https://github.com/RishitTandon7/ULTRON",
+            demo: "",
+        },
+        {
+            id: 7,
+            title: "KisanVikas",
+            description: "Agricultural platform empowering farmers with modern tools and market insights.",
+            tags: ["Android", "Java", "Firebase"],
+            github: "https://github.com/RishitTandon7/KisanVikas",
+            demo: "",
+        },
+        {
+            id: 8,
+            title: "NeuroVibe",
+            description: "Brain-Controlled Smart Wheelchair using ESP32, BioAmp, and ML. Controls movement via EEG signals.",
+            tags: ["ESP32", "Machine Learning", "BCI"],
+            github: "",
+            demo: "",
+        },
+        {
+            id: 9,
+            title: "AI Smart Glasses",
+            description: "Wearable AI with LLaMA 3.2 Vision for object detection, voice interaction, and assistive features.",
+            tags: ["Python", "OpenCV", "LLaMA"],
+            github: "",
+            demo: "",
         },
     ];
 
     return (
-        <section id="projects" className="min-h-screen py-32 px-6">
-            <div className="mx-auto max-w-6xl">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="mb-12"
-                >
+        <section id="projects" className={`${isWindow ? "min-h-0 py-8" : "min-h-screen py-20"} px-6 flex flex-col items-center justify-center`}>
+            <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="w-full max-w-6xl"
+            >
+                {/* Header */}
+                <div className="mb-12">
                     <h2 className="text-4xl md:text-5xl font-bold text-[#00ff00] mb-4">
                         <span className="text-gray-500"># </span>Projects
                     </h2>
-                    <p className="text-gray-400">Recent work showcasing creativity and technical excellence</p>
-                </motion.div>
+                    <p className="text-gray-400">Featured open source work</p>
+                </div>
 
-                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                <div className={`grid gap-6 ${isWindow ? "grid-cols-1" : "md:grid-cols-2 lg:grid-cols-3"}`}>
                     {projects.map((project, index) => (
                         <motion.div
                             key={project.id}
@@ -66,10 +121,10 @@ export function Projects() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: index * 0.1 }}
-                            className="terminal-window overflow-hidden group hover:border-[#00ff00] transition-all duration-300"
+                            className="terminal-window overflow-hidden group hover:border-[#00ff00] transition-all duration-300 flex flex-col"
                         >
                             {/* Project Number Header */}
-                            <div className="bg-[#1a1a1a] px-4 py-2 border-b border-[#333] flex items-center justify-between">
+                            <div className="bg-[#1a1a1a] px-4 py-2 border-b border-[#333] flex items-center justify-between shrink-0">
                                 <span className="text-[#00ff00] font-mono text-sm">
                                     project_{String(project.id).padStart(2, '0')}.sh
                                 </span>
@@ -81,12 +136,12 @@ export function Projects() {
                             </div>
 
                             {/* Content */}
-                            <div className="p-6">
+                            <div className="p-6 flex flex-col h-full">
                                 <h3 className="mb-3 text-xl font-bold text-white group-hover:text-[#00ff00] transition-colors">
                                     {project.title}
                                 </h3>
 
-                                <p className="mb-4 text-gray-400 text-sm leading-relaxed">
+                                <p className="mb-4 text-gray-400 text-sm leading-relaxed flex-grow">
                                     {project.description}
                                 </p>
 
@@ -102,7 +157,7 @@ export function Projects() {
                                 </div>
 
                                 {/* Buttons */}
-                                <div className="flex gap-3">
+                                <div className="flex gap-3 mt-auto">
                                     <motion.button
                                         onClick={(e) => handleGithubClick(e, project.github, project.id)}
                                         whileHover={{ scale: 1.02 }}
@@ -147,23 +202,44 @@ export function Projects() {
                                         </AnimatePresence>
                                     </motion.button>
 
-                                    <motion.a
-                                        href={project.demo}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        whileHover={{ scale: 1.02 }}
-                                        whileTap={{ scale: 0.98 }}
-                                        className="flex items-center justify-center gap-2 px-4 py-2.5 border border-[#00ff00] text-[#00ff00] rounded font-mono text-sm font-semibold hover:bg-[#00ff00] hover:text-black transition-all"
-                                    >
-                                        <ExternalLink className="h-4 w-4" />
-                                        <span>Demo</span>
-                                    </motion.a>
+                                    {project.demo && (
+                                        <motion.a
+                                            href={project.demo}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            whileHover={{ scale: 1.02 }}
+                                            whileTap={{ scale: 0.98 }}
+                                            className="flex items-center justify-center gap-2 px-4 py-2.5 border border-[#00ff00] text-[#00ff00] rounded font-mono text-sm font-semibold hover:bg-[#00ff00] hover:text-black transition-all"
+                                        >
+                                            <ExternalLink className="h-4 w-4" />
+                                            <span>Demo</span>
+                                        </motion.a>
+                                    )}
                                 </div>
                             </div>
                         </motion.div>
                     ))}
                 </div>
-            </div>
+
+                {/* View All Projects Button */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="mt-12 text-center"
+                >
+                    <a
+                        href="https://github.com/RishitTandon7?tab=repositories"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-8 py-4 bg-[#1a1a1a] border border-[#333] text-[#00ff00] rounded-lg font-mono font-bold hover:bg-[#00ff00] hover:text-black transition-all group"
+                    >
+                        <Github className="w-5 h-5" />
+                        <span>View All Projects on GitHub</span>
+                        <ExternalLink className="w-4 h-4 opacity-50 group-hover:opacity-100 transition-opacity" />
+                    </a>
+                </motion.div>
+            </motion.div>
         </section>
     );
 }
