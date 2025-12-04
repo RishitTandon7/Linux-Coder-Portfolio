@@ -2,28 +2,22 @@
 
 import { FileText, Folder, Image as ImageIcon } from "lucide-react";
 
+import { certificatesData } from "@/data/certificates";
+
 interface FileExplorerProps {
     folderId: string;
 }
 
 export function FileExplorer({ folderId }: FileExplorerProps) {
     const getFiles = () => {
-        switch (folderId) {
-            case "certificates":
-                return [
-                    { name: "JS_Algo.pdf", type: "pdf", icon: FileText },
-                    { name: "Responsive_Web.pdf", type: "pdf", icon: FileText },
-                    { name: "Frontend_Libs.pdf", type: "pdf", icon: FileText },
-                ];
-            case "certifications":
-                return [
-                    { name: "AWS_Architect.png", type: "image", icon: ImageIcon },
-                    { name: "Full_Stack.png", type: "image", icon: ImageIcon },
-                    { name: "React_Dev.png", type: "image", icon: ImageIcon },
-                ];
-            default:
-                return [];
-        }
+        const type = folderId === "certificates" ? "certificate" : "certification";
+        return certificatesData
+            .filter(item => item.type === type)
+            .map(item => ({
+                name: item.fileName || `${item.title.replace(/\s+/g, '_')}.pdf`,
+                type: item.image.endsWith(".png") || item.image.endsWith(".jpg") ? "image" : "pdf",
+                icon: item.image.endsWith(".png") || item.image.endsWith(".jpg") ? ImageIcon : FileText
+            }));
     };
 
     const files = getFiles();

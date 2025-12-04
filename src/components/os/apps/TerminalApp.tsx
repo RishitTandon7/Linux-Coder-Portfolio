@@ -10,8 +10,19 @@ interface TerminalAppProps {
 export function TerminalApp({ onExit }: TerminalAppProps) {
     const [input, setInput] = useState("");
     const [history, setHistory] = useState<Array<{ command: string; output: React.ReactNode }>>([]);
+    const [currentDir, setCurrentDir] = useState("~");
     const terminalRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
+
+    // Simple file system structure
+    const fileSystem: Record<string, string[]> = {
+        "~": ["Desktop/", "Documents/", "Downloads/", "projects/", "skills/", "README.md"],
+        "~/Desktop": ["Certificates/", "Certifications/", "Trash/"],
+        "~/Documents": ["Resume.pdf", "Notes.txt"],
+        "~/Downloads": [],
+        "~/projects": ["portfolio", "ecommerce-app", "chat-app"],
+        "~/skills": ["javascript", "typescript", "react", "nextjs"],
+    };
 
     useEffect(() => {
         setHistory([{
@@ -32,14 +43,15 @@ export function TerminalApp({ onExit }: TerminalAppProps) {
     }, [history]);
 
     const handleCommand = (cmd: string) => {
-        const trimmedCmd = cmd.trim().toLowerCase();
+        const trimmedCmd = cmd.trim();
+        const lowerCmd = trimmedCmd.toLowerCase();
 
-        if (trimmedCmd === "clear") {
+        if (lowerCmd === "clear") {
             setHistory([]);
             return;
         }
 
-        if (trimmedCmd === "exit" || trimmedCmd === "reboot") {
+        if (lowerCmd === "exit" || lowerCmd === "reboot") {
             onExit();
             return;
         }
@@ -48,15 +60,63 @@ export function TerminalApp({ onExit }: TerminalAppProps) {
 
         let output: React.ReactNode;
 
-        switch (trimmedCmd) {
+        // Handle echo with arguments
+        if (lowerCmd.startsWith("echo ")) {
+            const message = cmd.slice(5);
+            setHistory([...history, {
+                command: cmd,
+                output: <div className="text-gray-300">{message}</div>
+            }]);
+            return;
+        }
+
+        // Handle cd command
+        if (lowerCmd.startsWith("cd")) {
+            const args = trimmedCmd.split(" ");
+            const target = args[1];
+
+            if (!target || target === "~") {
+                setCurrentDir("~");
+            } else if (target === "..") {
+                if (currentDir !== "~") {
+                    const parts = currentDir.split("/");
+                    parts.pop();
+                    setCurrentDir(parts.join("/") || "~");
+                }
+            } else {
+                const newPath = currentDir === "~" ? `~/${target}` : `${currentDir}/${target}`;
+                // Check if directory exists (simple check against keys or known folders)
+                // For simplicity, we'll check if the constructed path exists as a key in fileSystem
+                // or if it's a valid subdirectory in the current listing.
+
+                const validDirs = fileSystem[currentDir]?.filter(f => f.endsWith("/")) || [];
+                const isDir = validDirs.some(d => d.replace("/", "") === target);
+
+                if (isDir || fileSystem[newPath]) {
+                    setCurrentDir(newPath);
+                } else {
+                    output = <div className="text-red-400">cd: no such file or directory: {target}</div>;
+                    setHistory([...history, { command: cmd, output }]);
+                    return;
+                }
+            }
+            setHistory([...history, { command: cmd, output: null }]);
+            return;
+        }
+
+        switch (lowerCmd) {
             case "help":
                 output = (
                     <div className="text-gray-300">
                         <div>Available commands:</div>
                         <div className="pl-4">
                             <div><span className="text-[#00ff00]">ls</span> - List directory contents</div>
+                            <div><span className="text-[#00ff00]">cd [dir]</span> - Change directory</div>
                             <div><span className="text-[#00ff00]">whoami</span> - Print current user</div>
                             <div><span className="text-[#00ff00]">date</span> - Print system date</div>
+                            <div><span className="text-[#00ff00]">pwd</span> - Print working directory</div>
+                            <div><span className="text-[#00ff00]">echo [text]</span> - Print text</div>
+                            <div><span className="text-[#00ff00]">repo</span> - Open GitHub repository</div>
                             <div><span className="text-[#00ff00]">clear</span> - Clear terminal screen</div>
                             <div><span className="text-[#00ff00]">exit</span> - Exit to main CLI</div>
                         </div>
@@ -64,14 +124,12 @@ export function TerminalApp({ onExit }: TerminalAppProps) {
                 );
                 break;
             case "ls":
+                const files = fileSystem[currentDir] || [];
                 output = (
                     <div className="grid grid-cols-3 gap-4 text-[#0099ff]">
-                        <span>Desktop/</span>
-                        <span>Documents/</span>
-                        <span>Downloads/</span>
-                        <span>projects/</span>
-                        <span>skills/</span>
-                        <span>README.md</span>
+                        {files.length > 0 ? files.map((f, i) => (
+                            <span key={i} className={f.endsWith("/") ? "text-[#0099ff]" : "text-gray-300"}>{f}</span>
+                        )) : <span className="text-gray-500">Empty directory</span>}
                     </div>
                 );
                 break;
@@ -80,6 +138,17 @@ export function TerminalApp({ onExit }: TerminalAppProps) {
                 break;
             case "date":
                 output = <div className="text-gray-300">{new Date().toString()}</div>;
+                break;
+            case "pwd":
+                output = <div className="text-gray-300">{currentDir.replace("~", "/home/guest")}</div>;
+                break;
+            case "repo":
+                output = (
+                    <div className="text-gray-300">
+                        Opening GitHub repository...
+                        <script dangerouslySetInnerHTML={{ __html: "window.open('https://github.com/yourusername/portfolio', '_blank')" }} />
+                    </div>
+                );
                 break;
             default:
                 output = <div className="text-red-400">Command not found: {trimmedCmd}</div>;
@@ -106,7 +175,7 @@ export function TerminalApp({ onExit }: TerminalAppProps) {
                 <div key={i} className="mb-2">
                     {item.command && (
                         <div className="flex items-center gap-2">
-                            <span className="text-[#00ff00]">guest@rishit-os:~$</span>
+                            <span className="text-[#00ff00]">guest@rishit-os:{currentDir}$</span>
                             <span className="text-gray-300">{item.command}</span>
                         </div>
                     )}
@@ -115,7 +184,7 @@ export function TerminalApp({ onExit }: TerminalAppProps) {
             ))}
 
             <form onSubmit={handleSubmit} className="flex items-center gap-2">
-                <span className="text-[#00ff00]">guest@rishit-os:~$</span>
+                <span className="text-[#00ff00]">guest@rishit-os:{currentDir}$</span>
                 <input
                     ref={inputRef}
                     type="text"

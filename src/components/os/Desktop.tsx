@@ -9,6 +9,7 @@ import { Window } from "./Window";
 import { Taskbar } from "./Taskbar";
 import { TerminalApp } from "./apps/TerminalApp";
 import { FileExplorer } from "./apps/FileExplorer";
+import { SystemBackground } from "./SystemBackground";
 
 // Lazy load heavy components
 const GravitySkills = dynamic(() => import("../sections/GravitySkills").then(mod => mod.GravitySkills), {
@@ -124,10 +125,11 @@ export function Desktop({ onExit }: DesktopProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-[url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop')] bg-cover bg-center overflow-hidden select-none"
+            className="fixed inset-0 overflow-hidden select-none z-50"
             style={{ cursor: "url('/cursor.png'), auto" }}
         >
-            <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
+            <SystemBackground />
+            <div className="absolute inset-0 bg-black/10 backdrop-blur-[1px]" />
 
             {/* Desktop Icons Grid */}
             <div className="relative z-10 p-4 md:p-8 flex flex-wrap content-start gap-4 md:gap-6 h-[calc(100dvh-48px)] overflow-y-auto md:overflow-visible md:flex-col md:h-[calc(100dvh-48px)]">

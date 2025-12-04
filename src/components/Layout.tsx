@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useState } from "react";
+import { AnimatePresence } from "framer-motion";
 import { BootSequence } from "@/components/BootSequence";
 import { Dock } from "@/components/ui/Dock";
 import { User, Code, Cpu, Mail, Award } from "lucide-react";
@@ -17,7 +18,7 @@ const GravitySkills = dynamic(() => import("@/components/sections/GravitySkills"
 
 export function Layout() {
     const [isBooting, setIsBooting] = useState(true);
-    const [hideDock, setHideDock] = useState(false);
+    const [hideDock, setHideDock] = useState(true);
 
     const scrollToSection = (id: string) => {
         const element = document.getElementById(id);
@@ -42,7 +43,7 @@ export function Layout() {
             <HeroScene />
 
             <div className={cn("relative z-10 transition-opacity duration-1000", isBooting ? "opacity-0" : "opacity-100")}>
-                <Hero onToggleGui={setHideDock} />
+                <Hero onToggleGui={setHideDock} isDockHidden={hideDock} />
 
                 <Education />
 
@@ -57,7 +58,9 @@ export function Layout() {
                 <Contact />
             </div>
 
-            {!hideDock && <Dock items={dockItems} />}
+            <AnimatePresence>
+                {!hideDock && <Dock items={dockItems} />}
+            </AnimatePresence>
         </main>
     );
 }

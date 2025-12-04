@@ -10,6 +10,11 @@ interface BootSequenceProps {
 export function BootSequence({ onComplete }: BootSequenceProps) {
     const [lines, setLines] = useState<string[]>([]);
     const [progress, setProgress] = useState(0);
+    const [sessionId, setSessionId] = useState("000000");
+
+    useEffect(() => {
+        setSessionId(Date.now().toString().slice(-6));
+    }, []);
 
     useEffect(() => {
         const bootMessages = [
@@ -132,7 +137,7 @@ export function BootSequence({ onComplete }: BootSequenceProps) {
                 {/* Footer info */}
                 <div className="mt-8 border-t border-green-400/30 pt-4 text-xs text-green-600">
                     <p>User: developer</p>
-                    <p>Session: portfolio-session-{Date.now().toString().slice(-6)}</p>
+                    <p>Session: portfolio-session-{sessionId}</p>
                     <p className="mt-2 opacity-50">Press any key to continue...</p>
                 </div>
             </div>

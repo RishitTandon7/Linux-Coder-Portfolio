@@ -5,64 +5,14 @@ import { Award, Calendar, ExternalLink } from "lucide-react";
 import { useState } from "react";
 import Image from "next/image";
 
+import { certificatesData } from "@/data/certificates";
+
 export function Certifications() {
     const [activeTab, setActiveTab] = useState<"certificates" | "certifications">("certificates");
 
-    const certificates = [
-        {
-            title: "JavaScript Algorithms and Data Structures",
-            issuer: "freeCodeCamp",
-            date: "2024",
-            link: "#",
-            image: "/certificates/js-algo.png", // Add your image path
-            description: "Completed comprehensive course on JavaScript algorithms, data structures, and problem-solving techniques."
-        },
-        {
-            title: "Responsive Web Design",
-            issuer: "freeCodeCamp",
-            date: "2023",
-            link: "#",
-            image: "/certificates/responsive.png",
-            description: "Mastered responsive web design principles, CSS flexbox, grid, and mobile-first development."
-        },
-        {
-            title: "Front End Development Libraries",
-            issuer: "freeCodeCamp",
-            date: "2023",
-            link: "#",
-            image: "/certificates/frontend.png",
-            description: "Expertise in React, Redux, SASS, and modern front-end development frameworks and tools."
-        },
-    ];
-
-    const certifications = [
-        {
-            title: "AWS Certified Solutions Architect",
-            issuer: "Amazon Web Services",
-            date: "2024",
-            link: "#",
-            image: "/certifications/aws.png",
-            description: "Professional certification in designing and deploying scalable, highly available systems on AWS."
-        },
-        {
-            title: "Full Stack Web Development",
-            issuer: "Coursera",
-            date: "2023",
-            link: "#",
-            image: "/certifications/fullstack.png",
-            description: "Complete full-stack development specialization covering front-end, back-end, and databases."
-        },
-        {
-            title: "React Developer Certification",
-            issuer: "Meta",
-            date: "2023",
-            link: "#",
-            image: "/certifications/react.png",
-            description: "Advanced React certification covering hooks, state management, and modern React patterns."
-        },
-    ];
-
-    const currentData = activeTab === "certificates" ? certificates : certifications;
+    const currentData = certificatesData.filter(item =>
+        activeTab === "certificates" ? item.type === "certificate" : item.type === "certification"
+    );
 
     return (
         <section id="certifications" className="min-h-screen flex items-center justify-center px-6 py-20">
@@ -83,8 +33,8 @@ export function Certifications() {
                         <button
                             onClick={() => setActiveTab("certificates")}
                             className={`px-6 py-3 rounded-lg font-mono text-sm font-semibold transition-all ${activeTab === "certificates"
-                                    ? "bg-[#00ff00] text-black"
-                                    : "bg-transparent text-gray-500 border border-gray-700 hover:border-[#00ff00] hover:text-[#00ff00]"
+                                ? "bg-[#00ff00] text-black"
+                                : "bg-transparent text-gray-500 border border-gray-700 hover:border-[#00ff00] hover:text-[#00ff00]"
                                 }`}
                         >
                             <span className="text-gray-500">{activeTab === "certificates" ? "$ " : ""}</span>
@@ -93,8 +43,8 @@ export function Certifications() {
                         <button
                             onClick={() => setActiveTab("certifications")}
                             className={`px-6 py-3 rounded-lg font-mono text-sm font-semibold transition-all ${activeTab === "certifications"
-                                    ? "bg-[#00ff00] text-black"
-                                    : "bg-transparent text-gray-500 border border-gray-700 hover:border-[#00ff00] hover:text-[#00ff00]"
+                                ? "bg-[#00ff00] text-black"
+                                : "bg-transparent text-gray-500 border border-gray-700 hover:border-[#00ff00] hover:text-[#00ff00]"
                                 }`}
                         >
                             <span className="text-gray-500">{activeTab === "certifications" ? "$ " : ""}</span>

@@ -21,6 +21,7 @@ export function Dock({ items, className }: DockProps) {
             <motion.div
                 initial={{ y: 100, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
+                exit={{ y: 100, opacity: 0 }}
                 transition={{ type: "spring", stiffness: 260, damping: 20 }}
                 className="flex items-end gap-3 border border-green-500/30 bg-black/90 px-6 py-4 backdrop-blur-sm shadow-[0_0_20px_rgba(74,222,128,0.15)]"
             >

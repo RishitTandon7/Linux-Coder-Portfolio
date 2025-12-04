@@ -4,12 +4,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Terminal } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { Desktop } from "../os/Desktop";
+import { SystemBackground } from "../os/SystemBackground";
 
 interface HeroProps {
     onToggleGui?: (hide: boolean) => void;
+    isDockHidden?: boolean;
 }
 
-export function Hero({ onToggleGui }: HeroProps) {
+export function Hero({ onToggleGui, isDockHidden }: HeroProps) {
     const [input, setInput] = useState("");
     const [history, setHistory] = useState<Array<{ command: string; output: React.ReactNode }>>([]);
     const [isGuiMode, setIsGuiMode] = useState(false);
@@ -49,6 +51,11 @@ export function Hero({ onToggleGui }: HeroProps) {
                     <div><span className="text-[#00ff00]">contact</span> - Get in touch</div>
                     <div><span className="text-[#00ff00]">socials</span> - View social links</div>
                     <div><span className="text-[#00ff00]">gui</span> - Launch Desktop Mode 🚀</div>
+                    <div><span className="text-[#00ff00]">taskbar</span> - Toggle navigation dock</div>
+                    <div><span className="text-[#00ff00]">whoami</span> - Current user</div>
+                    <div><span className="text-[#00ff00]">ls</span> - List directories</div>
+                    <div><span className="text-[#00ff00]">date</span> - Show date</div>
+                    <div><span className="text-[#00ff00]">repo</span> - View source code</div>
                     <div><span className="text-[#00ff00]">clear</span> - Clear terminal</div>
                 </div>
             </div>
@@ -62,6 +69,41 @@ export function Hero({ onToggleGui }: HeroProps) {
                 </div>
             );
         },
+        taskbar: () => {
+            const newState = !isDockHidden;
+            onToggleGui?.(newState);
+            return (
+                <div className="text-[#00ff00]">
+                    {newState ? "Taskbar hidden." : "Taskbar enabled."}
+                </div>
+            );
+        },
+        whoami: () => (
+            <div className="text-[#00ff00]">guest@portfolio</div>
+        ),
+        date: () => (
+            <div className="text-gray-300">{new Date().toString()}</div>
+        ),
+        ls: () => (
+            <div className="grid grid-cols-2 gap-2 text-[#0099ff]">
+                <span>about/</span>
+                <span>skills/</span>
+                <span>projects/</span>
+                <span>education/</span>
+                <span>contact/</span>
+                <span className="text-gray-500">README.md</span>
+            </div>
+        ),
+        repo: () => (
+            <div className="text-gray-300">
+                Opening GitHub repository...
+                {/* Replace with actual repo URL if known, otherwise placeholder */}
+                <script dangerouslySetInnerHTML={{ __html: "window.open('https://github.com/yourusername/portfolio', '_blank')" }} />
+            </div>
+        ),
+        echo: () => (
+            <div className="text-gray-300">Usage: echo [text]</div>
+        ),
         about: () => (
             <div className="text-sm">
                 <div className="text-[#00ff00] text-lg mb-2">👋 About Me</div>
@@ -161,16 +203,27 @@ export function Hero({ onToggleGui }: HeroProps) {
     };
 
     const handleCommand = (cmd: string) => {
-        const trimmedCmd = cmd.trim().toLowerCase();
+        const trimmedCmd = cmd.trim();
+        const lowerCmd = trimmedCmd.toLowerCase();
 
-        if (trimmedCmd === "clear") {
+        if (lowerCmd === "clear") {
             setHistory([]);
             return;
         }
 
         if (trimmedCmd === "") return;
 
-        const output = commands[trimmedCmd] ? commands[trimmedCmd]() : (
+        // Handle echo with arguments
+        if (lowerCmd.startsWith("echo ")) {
+            const message = trimmedCmd.slice(5);
+            setHistory([...history, {
+                command: cmd,
+                output: <div className="text-gray-300">{message}</div>
+            }]);
+            return;
+        }
+
+        const output = commands[lowerCmd] ? commands[lowerCmd]() : (
             <div className="text-red-400 text-sm">
                 Command not found: {trimmedCmd}. Type &apos;help&apos; for available commands.
             </div>
@@ -193,14 +246,17 @@ export function Hero({ onToggleGui }: HeroProps) {
                 {isGuiMode && (
                     <Desktop onExit={() => {
                         setIsGuiMode(false);
-                        onToggleGui?.(false);
+                        onToggleGui?.(true);
                     }} />
                 )}
             </AnimatePresence>
 
-            <section className="min-h-screen p-6 flex items-center justify-center bg-black">
-                <div className="max-w-4xl w-full">
-                    <div className="terminal-window overflow-hidden">
+            <section className="min-h-screen p-6 flex items-center justify-center relative overflow-hidden">
+                <SystemBackground className="absolute" />
+                <div className="absolute inset-0 bg-black/20 backdrop-blur-[2px]" />
+
+                <div className="max-w-4xl w-full relative z-10">
+                    <div className="terminal-window overflow-hidden shadow-2xl">
                         <div className="flex items-center justify-between bg-[#2a2a2a] px-4 py-2 border-b border-[#333]">
                             <div className="flex items-center gap-2">
                                 <div className="h-3 w-3 rounded-full bg-[#ff5f57]" />
@@ -209,22 +265,22 @@ export function Hero({ onToggleGui }: HeroProps) {
                             </div>
                             <div className="flex items-center gap-2 text-xs text-gray-400">
                                 <Terminal className="h-3 w-3" />
-                                <span>bash - interactive terminal</span>
+                                <span className="select-none">bash - interactive terminal</span>
                             </div>
                         </div>
 
                         <div
                             ref={terminalRef}
-                            className="p-6 font-mono text-sm h-[500px] overflow-y-auto"
+                            className="p-6 font-mono text-sm h-[500px] overflow-y-auto bg-black/90 backdrop-blur-md"
                             onClick={() => inputRef.current?.focus()}
                         >
                             {history.map((item, i) => (
                                 <div key={i} className="mb-4">
                                     {item.command && (
                                         <div className="flex items-center gap-2 mb-2">
-                                            <span className="text-[#00ff00]">➜</span>
-                                            <span className="text-[#0099ff]">~/portfolio</span>
-                                            <span className="text-gray-500">$</span>
+                                            <span className="text-[#00ff00] select-none">➜</span>
+                                            <span className="text-[#0099ff] select-none">~/portfolio</span>
+                                            <span className="text-gray-500 select-none">$</span>
                                             <span className="text-gray-300">{item.command}</span>
                                         </div>
                                     )}
@@ -233,9 +289,9 @@ export function Hero({ onToggleGui }: HeroProps) {
                             ))}
 
                             <form onSubmit={handleSubmit} className="flex items-center gap-2">
-                                <span className="text-[#00ff00]">➜</span>
-                                <span className="text-[#0099ff]">~/portfolio</span>
-                                <span className="text-gray-500">$</span>
+                                <span className="text-[#00ff00] select-none">➜</span>
+                                <span className="text-[#0099ff] select-none">~/portfolio</span>
+                                <span className="text-gray-500 select-none">$</span>
                                 <input
                                     ref={inputRef}
                                     type="text"
@@ -253,7 +309,7 @@ export function Hero({ onToggleGui }: HeroProps) {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ delay: 1 }}
-                        className="mt-4 text-center text-xs text-gray-600"
+                        className="mt-4 text-center text-xs text-gray-400 font-mono"
                     >
                         💡 Pro tip: Type &apos;gui&apos; to launch the Desktop Experience!
                     </motion.div>
